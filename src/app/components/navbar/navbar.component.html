@@ -1,0 +1,57 @@
+<header class="nav" [class.scrolled]="scrolled() || menuOpen()">
+  <nav class="container nav-inner" aria-label="Primary">
+    <a class="brand" href="#home" (click)="onLinkClick('home')" [attr.aria-label]="profile.displayName + ' — back to top'">
+      <span class="brand-mark" aria-hidden="true">{{ profile.initials }}</span>
+      <span class="brand-name">{{ profile.displayName }}</span>
+    </a>
+
+    <ul class="links" role="list">
+      @for (link of links; track link.id) {
+        <li>
+          <a
+            [href]="'#' + link.id"
+            [class.active]="active() === link.id"
+            [attr.aria-current]="active() === link.id ? 'true' : null"
+            (click)="onLinkClick(link.id)"
+            >{{ link.label }}</a
+          >
+        </li>
+      }
+    </ul>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="icon-btn"
+        (click)="theme.toggle()"
+        [attr.aria-label]="theme.theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+        [attr.title]="theme.theme() === 'dark' ? 'Light theme' : 'Dark theme'"
+      >
+        <lucide-icon [img]="theme.theme() === 'dark' ? icons.Sun : icons.Moon" [size]="18" aria-hidden="true"></lucide-icon>
+      </button>
+      <button
+        type="button"
+        class="icon-btn menu-btn"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="mobile-menu"
+        [attr.aria-label]="menuOpen() ? 'Close menu' : 'Open menu'"
+      >
+        <lucide-icon [img]="menuOpen() ? icons.X : icons.Menu" [size]="20" aria-hidden="true"></lucide-icon>
+      </button>
+    </div>
+  </nav>
+
+</header>
+
+<div id="mobile-menu" class="mobile" [class.open]="menuOpen()" [attr.aria-hidden]="!menuOpen()" [attr.inert]="menuOpen() ? null : ''">
+  <ul role="list" class="container">
+    @for (link of links; track link.id; let i = $index) {
+      <li [style.transition-delay.ms]="menuOpen() ? 30 * i : 0">
+        <a [href]="'#' + link.id" [class.active]="active() === link.id" (click)="onLinkClick(link.id)">
+          <span class="num" aria-hidden="true">0{{ i + 1 }}</span>{{ link.label }}
+        </a>
+      </li>
+    }
+  </ul>
+</div>

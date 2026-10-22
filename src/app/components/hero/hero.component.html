@@ -1,0 +1,88 @@
+<section id="home" class="hero" aria-labelledby="hero-title">
+  <div class="container hero-grid">
+    <div class="copy">
+      <p class="status">
+        <span class="dot" aria-hidden="true"></span>
+        {{ profile.title }} at {{ company }}
+      </p>
+
+      <h1 id="hero-title">
+        <span class="hello">Hi, I'm</span>
+        <span class="name grad-text">{{ profile.displayName }}</span>
+      </h1>
+
+      <p class="headline">{{ profile.headline }}</p>
+      <p class="intro">
+        {{ profile.experienceLabel }} building web applications end to end. Currently shaping
+        <strong>{{ current }}</strong> — a multi-tenant SaaS platform covering HR, policy &amp; procedure, and billing management.
+      </p>
+
+      <ul class="chip-list stack" aria-label="Core technologies">
+        @for (tech of stack; track tech) {
+          <li class="chip">{{ tech }}</li>
+        }
+      </ul>
+
+      <div class="cta">
+        <a class="btn btn-primary" href="#projects">
+          Explore My Work
+          <lucide-icon [img]="icons.ArrowRight" [size]="18" aria-hidden="true"></lucide-icon>
+        </a>
+        <a class="btn btn-ghost" [href]="profile.resumeFile" [attr.download]="profile.resumeDownloadName">
+          <lucide-icon [img]="icons.Download" [size]="18" aria-hidden="true"></lucide-icon>
+          Download Resume
+        </a>
+        <a class="btn btn-ghost" href="#contact">
+          <lucide-icon [img]="icons.Mail" [size]="18" aria-hidden="true"></lucide-icon>
+          Contact Me
+        </a>
+      </div>
+
+      <dl class="facts">
+        <div>
+          <dt>Experience</dt>
+          <dd>{{ profile.experienceLabel }}</dd>
+        </div>
+        <div>
+          <dt>Projects</dt>
+          <dd>{{ projectCount }} products</dd>
+        </div>
+        <div>
+          <dt>Focus</dt>
+          <dd>Multi-tenant SaaS</dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Abstract developer illustration: a code editor rendering the profile as data. -->
+    <div class="visual" aria-hidden="true">
+      <div class="orb orb-a"></div>
+      <div class="orb orb-b"></div>
+      <div class="editor">
+        <div class="editor-bar">
+          <span></span><span></span><span></span>
+          <em>developer.ts</em>
+        </div>
+        <pre class="code"><code><span class="k">const</span> <span class="v">developer</span> = &#123;
+  <span class="p">name</span>: <span class="s">'{{ profile.displayName }}'</span>,
+  <span class="p">role</span>: <span class="s">'Full Stack Developer'</span>,
+  <span class="p">experience</span>: <span class="s">'{{ profile.experienceLabel }}'</span>,
+  <span class="p">frontend</span>: [<span class="s">'Angular 19'</span>, <span class="s">'Kendo UI'</span>, <span class="s">'RxJS'</span>],
+  <span class="p">backend</span>: [<span class="s">'.NET Core'</span>, <span class="s">'C#'</span>, <span class="s">'SignalR'</span>],
+  <span class="p">data</span>: [<span class="s">'SQL Server'</span>, <span class="s">'EF Core'</span>],
+  <span class="p">building</span>: <span class="s">'{{ current }}'</span>,
+&#125;;
+
+<span class="v">developer</span>.<span class="f">ship</span>(<span class="s">'next feature'</span>); <span class="c">// with Claude Code</span><span class="caret"></span></code></pre>
+      </div>
+      <div class="float-card fc-1">
+        <span class="fc-k">SignalR</span>
+        <span class="fc-v">real-time</span>
+      </div>
+      <div class="float-card fc-2">
+        <span class="fc-k">Hangfire</span>
+        <span class="fc-v">background jobs</span>
+      </div>
+    </div>
+  </div>
+</section>

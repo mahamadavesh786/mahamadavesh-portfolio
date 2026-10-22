@@ -1,0 +1,165 @@
+<section id="projects" class="section" aria-labelledby="projects-title">
+  <div class="container">
+    <header class="section-head" appReveal>
+      <p class="eyebrow">Featured projects</p>
+      <h2 id="projects-title" class="section-title">Products I've helped build</h2>
+      <p class="section-sub">Three products delivered at iFour Technolab — filter by technology, then open a project for the full breakdown.</p>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filter projects by technology" appReveal>
+      @for (f of filters; track f) {
+        <button
+          type="button"
+          class="filter"
+          [class.active]="activeFilter() === f"
+          [attr.aria-pressed]="activeFilter() === f"
+          (click)="setFilter(f)"
+        >
+          {{ f }}
+        </button>
+      }
+    </div>
+    <p class="sr-only" aria-live="polite">
+      Showing {{ visible().length }} of {{ projects.length }} projects{{ activeFilter() === 'All' ? '' : ' using ' + activeFilter() }}.
+    </p>
+
+    <ul class="grid" role="list">
+      @for (p of visible(); track p.id; let i = $index) {
+        <li class="card interactive project" [class.featured]="p.id === 'h4c' && activeFilter() === 'All'">
+          <div class="p-top">
+            <span class="icon-tile">
+              <lucide-icon [img]="icons.FolderGit2" [size]="20" aria-hidden="true"></lucide-icon>
+            </span>
+            <span class="p-tag">{{ p.shortName }}</span>
+          </div>
+
+          <h3>{{ p.name }}</h3>
+          <p class="tagline">{{ p.tagline }}</p>
+          <p class="purpose">{{ p.purpose }}</p>
+
+          <ul class="feat" role="list">
+            @for (feat of p.features.slice(0, p.id === 'h4c' && activeFilter() === 'All' ? 4 : 3); track feat.label) {
+              <li><strong>{{ feat.label }}</strong> — {{ feat.text }}</li>
+            }
+          </ul>
+
+          <ul class="chip-list p-tech" aria-label="Technologies">
+            @for (t of p.tech; track t) {
+              <li class="chip" [class.hit]="t === activeFilter()">{{ t }}</li>
+            }
+          </ul>
+
+          <div class="p-actions">
+            <button type="button" class="btn btn-ghost" (click)="open(p)" [attr.aria-label]="'View details for ' + p.name">
+              View details
+              <lucide-icon [img]="icons.ArrowUpRight" [size]="16" aria-hidden="true"></lucide-icon>
+            </button>
+            @if (p.githubUrl) {
+              <a class="icon-btn" [href]="p.githubUrl" target="_blank" rel="noopener noreferrer" [attr.aria-label]="p.name + ' source code on GitHub'">
+                <lucide-icon [img]="icons.Github" [size]="18" aria-hidden="true"></lucide-icon>
+              </a>
+            }
+            @if (p.liveUrl) {
+              <a class="icon-btn" [href]="p.liveUrl" target="_blank" rel="noopener noreferrer" [attr.aria-label]="p.name + ' live demo'">
+                <lucide-icon [img]="icons.ExternalLink" [size]="18" aria-hidden="true"></lucide-icon>
+              </a>
+            }
+          </div>
+        </li>
+      } @empty {
+        <li class="empty card">No projects use that technology.</li>
+      }
+    </ul>
+  </div>
+
+  <dialog
+    #detail
+    class="dialog"
+    aria-labelledby="dialog-title"
+    (close)="onClosed()"
+    (click)="onBackdropClick($event)"
+  >
+    @if (selected(); as p) {
+      <div class="d-body">
+        <header class="d-head">
+          <div>
+            <p class="eyebrow">{{ p.shortName }} · iFour Technolab</p>
+            <h2 id="dialog-title">{{ p.name }}</h2>
+            <p class="tagline">{{ p.tagline }}</p>
+          </div>
+          <button type="button" class="icon-btn" (click)="close()" aria-label="Close project details">
+            <lucide-icon [img]="icons.X" [size]="18" aria-hidden="true"></lucide-icon>
+          </button>
+        </header>
+
+        <div class="d-section">
+          <h3>Purpose</h3>
+          <p>{{ p.purpose }}</p>
+        </div>
+
+        <div class="d-section">
+          <h3>Overview</h3>
+          <p>{{ p.overview }}</p>
+        </div>
+
+        <div class="d-section">
+          <h3>Key features</h3>
+          <dl class="d-features">
+            @for (f of p.features; track f.label) {
+              <div>
+                <dt>{{ f.label }}</dt>
+                <dd>{{ f.text }}</dd>
+              </div>
+            }
+          </dl>
+        </div>
+
+        <div class="d-section">
+          <h3>My contributions</h3>
+          <ul class="d-list">
+            @for (c of p.contributions; track $index) {
+              <li>{{ c }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="d-section">
+          <h3>Technology stack</h3>
+          <ul class="chip-list">
+            @for (t of p.tech; track t) {
+              <li class="chip">{{ t }}</li>
+            }
+          </ul>
+        </div>
+
+        @if (p.screenshots.length) {
+          <div class="d-section">
+            <h3>Screenshots</h3>
+            <div class="shots">
+              @for (s of p.screenshots; track s.src) {
+                <img [src]="s.src" [alt]="s.alt" loading="lazy" decoding="async" />
+              }
+            </div>
+          </div>
+        }
+
+        @if (p.githubUrl || p.liveUrl) {
+          <div class="d-links">
+            @if (p.githubUrl) {
+              <a class="btn btn-ghost" [href]="p.githubUrl" target="_blank" rel="noopener noreferrer">
+                <lucide-icon [img]="icons.Github" [size]="18" aria-hidden="true"></lucide-icon> Source code
+              </a>
+            }
+            @if (p.liveUrl) {
+              <a class="btn btn-primary" [href]="p.liveUrl" target="_blank" rel="noopener noreferrer">
+                <lucide-icon [img]="icons.ExternalLink" [size]="18" aria-hidden="true"></lucide-icon> Live demo
+              </a>
+            }
+          </div>
+        } @else {
+          <p class="d-note">This is a client/company product, so source code and live access aren't public.</p>
+        }
+      </div>
+    }
+  </dialog>
+</section>

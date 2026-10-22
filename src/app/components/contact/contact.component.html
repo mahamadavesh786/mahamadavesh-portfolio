@@ -1,0 +1,186 @@
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <div class="container contact-grid">
+    <div class="info" appReveal>
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-title" class="section-title">Let's build something <span class="grad-text">reliable</span></h2>
+      <p class="section-sub">
+        Open to conversations about full stack roles and Angular / .NET Core projects. Send a message or reach me directly.
+      </p>
+
+      <ul class="channels" role="list">
+        <li>
+          <a class="channel card interactive" [href]="'mailto:' + profile.email">
+            <span class="icon-tile"><lucide-icon [img]="icons.Mail" [size]="20" aria-hidden="true"></lucide-icon></span>
+            <span class="ch-text">
+              <span class="ch-label">Email</span>
+              <span class="ch-value">{{ profile.email }}</span>
+            </span>
+          </a>
+          <button
+            type="button"
+            class="icon-btn copy"
+            (click)="copyEmail()"
+            [attr.aria-label]="copied() ? 'Email copied' : 'Copy email address'"
+            [attr.title]="copied() ? 'Copied!' : 'Copy email'"
+          >
+            <lucide-icon [img]="copied() ? icons.Check : icons.Copy" [size]="16" aria-hidden="true"></lucide-icon>
+          </button>
+        </li>
+        <li>
+          <a class="channel card interactive" [href]="'tel:' + profile.phoneHref">
+            <span class="icon-tile"><lucide-icon [img]="icons.Phone" [size]="20" aria-hidden="true"></lucide-icon></span>
+            <span class="ch-text">
+              <span class="ch-label">Phone</span>
+              <span class="ch-value">{{ profile.phone }}</span>
+            </span>
+          </a>
+        </li>
+        @if (profile.linkedin) {
+          <li>
+            <a class="channel card interactive" [href]="profile.linkedin" target="_blank" rel="noopener noreferrer">
+              <span class="icon-tile"><lucide-icon [img]="icons.Linkedin" [size]="20" aria-hidden="true"></lucide-icon></span>
+              <span class="ch-text">
+                <span class="ch-label">LinkedIn</span>
+                <span class="ch-value">View profile</span>
+              </span>
+            </a>
+          </li>
+        }
+        @if (profile.github) {
+          <li>
+            <a class="channel card interactive" [href]="profile.github" target="_blank" rel="noopener noreferrer">
+              <span class="icon-tile"><lucide-icon [img]="icons.Github" [size]="20" aria-hidden="true"></lucide-icon></span>
+              <span class="ch-text">
+                <span class="ch-label">GitHub</span>
+                <span class="ch-value">View repositories</span>
+              </span>
+            </a>
+          </li>
+        }
+        @if (profile.location) {
+          <li>
+            <div class="channel card">
+              <span class="icon-tile"><lucide-icon [img]="icons.MapPin" [size]="20" aria-hidden="true"></lucide-icon></span>
+              <span class="ch-text">
+                <span class="ch-label">Location</span>
+                <span class="ch-value">{{ profile.location }}</span>
+              </span>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="form-wrap card" appReveal [revealDelay]="100">
+      @if (state() === 'success') {
+        <div class="result success" role="status" tabindex="-1">
+          <lucide-icon [img]="icons.CircleCheck" [size]="40" aria-hidden="true"></lucide-icon>
+          <h3>Message sent</h3>
+          <p>Thanks for reaching out — I'll reply to the email address you provided.</p>
+          <button type="button" class="btn btn-ghost" (click)="resetState()">Send another message</button>
+        </div>
+      } @else {
+        <form
+          id="contact-form"
+          name="contact"
+          [formGroup]="form"
+          (ngSubmit)="submit()"
+          novalidate
+          aria-describedby="form-note"
+        >
+          <h3 class="form-title">Send a message</h3>
+
+          <!-- Honeypot: hidden from people, filled by bots, rejected by Netlify. -->
+          <p class="hp" aria-hidden="true">
+            <label>Don't fill this out: <input formControlName="botField" name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
+
+          <div class="row">
+            <div class="field">
+              <label for="cf-name">Name</label>
+              <input
+                id="cf-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                formControlName="name"
+                [attr.aria-invalid]="showError('name')"
+                [attr.aria-describedby]="showError('name') ? 'cf-name-err' : null"
+              />
+              @if (showError('name')) {
+                <p class="err" id="cf-name-err">{{ errorText('name') }}</p>
+              }
+            </div>
+            <div class="field">
+              <label for="cf-email">Email</label>
+              <input
+                id="cf-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                inputmode="email"
+                formControlName="email"
+                [attr.aria-invalid]="showError('email')"
+                [attr.aria-describedby]="showError('email') ? 'cf-email-err' : null"
+              />
+              @if (showError('email')) {
+                <p class="err" id="cf-email-err">{{ errorText('email') }}</p>
+              }
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="cf-subject">Subject</label>
+            <input
+              id="cf-subject"
+              name="subject"
+              type="text"
+              formControlName="subject"
+              [attr.aria-invalid]="showError('subject')"
+              [attr.aria-describedby]="showError('subject') ? 'cf-subject-err' : null"
+            />
+            @if (showError('subject')) {
+              <p class="err" id="cf-subject-err">{{ errorText('subject') }}</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="cf-message">Message</label>
+            <textarea
+              id="cf-message"
+              name="message"
+              rows="5"
+              formControlName="message"
+              [attr.aria-invalid]="showError('message')"
+              [attr.aria-describedby]="showError('message') ? 'cf-message-err' : null"
+            ></textarea>
+            @if (showError('message')) {
+              <p class="err" id="cf-message-err">{{ errorText('message') }}</p>
+            }
+          </div>
+
+          @if (state() === 'error') {
+            <div class="result error" role="alert">
+              <lucide-icon [img]="icons.CircleAlert" [size]="20" aria-hidden="true"></lucide-icon>
+              <p>
+                Your message couldn't be sent. Please try again, or
+                <a [href]="mailtoHref">email me directly</a> — your text will be pre-filled.
+              </p>
+            </div>
+          }
+
+          <button type="submit" class="btn btn-primary submit" [disabled]="state() === 'sending'">
+            @if (state() === 'sending') {
+              <lucide-icon class="spin" [img]="icons.LoaderCircle" [size]="18" aria-hidden="true"></lucide-icon>
+              Sending…
+            } @else {
+              <lucide-icon [img]="icons.Send" [size]="18" aria-hidden="true"></lucide-icon>
+              Send message
+            }
+          </button>
+          <p id="form-note" class="note">All fields are required.</p>
+        </form>
+      }
+    </div>
+  </div>
+</section>

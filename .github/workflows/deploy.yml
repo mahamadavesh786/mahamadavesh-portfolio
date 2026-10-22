@@ -1,0 +1,61 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Work out site URL and base path
+        id: site
+        run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          REPO="${{ github.event.repository.name }}"
+          if [ "$(echo "$REPO" | tr '[:upper:]' '[:lower:]')" = "$OWNER.github.io" ]; then
+            BASE="/"
+            HOST="$OWNER.github.io"
+          else
+            BASE="/$REPO/"
+            HOST="$OWNER.github.io/$REPO"
+          fi
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"
+          echo "host=$HOST" >> "$GITHUB_OUTPUT"
+
+      - name: Fill in SITE_URL placeholders
+        run: sed -i "s#SITE_URL#${{ steps.site.outputs.host }}#g" src/index.html src/robots.txt src/sitemap.xml
+
+      - run: npm ci
+      - run: npx ng build --base-href "${{ steps.site.outputs.base }}"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/mahamadavesh-portfolio/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

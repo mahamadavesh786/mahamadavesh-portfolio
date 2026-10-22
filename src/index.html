@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <title>Mahamadavesh Mathakiya — Full Stack Developer (Angular, .NET Core, SQL Server)</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfolio of Mahamadavesh Mathakiya, a Full Stack Developer with 3 years 3 months of experience building multi-tenant SaaS web applications with Angular, .NET Core, SignalR and SQL Server.">
+  <meta name="author" content="Mahamadavesh Mathakiya">
+  <meta name="keywords" content="Mahamadavesh Mathakiya, Full Stack Developer, Software Developer, Angular, .NET Core, C#, SQL Server, SignalR, Kendo UI, portfolio">
+  <meta name="theme-color" content="#070b16" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+
+  <!-- Open Graph / social. Replace SITE_URL after your first Netlify deploy (see README). -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mahamadavesh Mathakiya — Full Stack Developer">
+  <meta property="og:description" content="Full Stack Developer building multi-tenant SaaS with Angular, .NET Core and SQL Server. 3 years 3 months at iFour Technolab Pvt. Ltd.">
+  <meta property="og:url" content="https://SITE_URL/">
+  <meta property="og:site_name" content="Mahamadavesh Mathakiya">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Mahamadavesh Mathakiya — Full Stack Developer">
+  <meta name="twitter:description" content="Full Stack Developer building multi-tenant SaaS with Angular, .NET Core and SQL Server.">
+  <link rel="canonical" href="https://SITE_URL/">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>
+    // Apply saved/system theme before first paint to avoid a flash.
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mahamadavesh Mahebubbhai Mathakiya",
+    "jobTitle": "Software Developer",
+    "email": "mailto:mahamadavesh786@gmail.com",
+    "worksFor": { "@type": "Organization", "name": "iFour Technolab Pvt. Ltd." },
+    "knowsAbout": ["Angular", ".NET Core", "C#", "SQL Server", "SignalR", "Entity Framework Core", "Azure DevOps"]
+  }
+  </script>
+</head>
+<body>
+  <!-- Static copy of the contact form so Netlify's build bot can register it.
+       The real form is rendered by Angular and posts the same field names. -->
+  <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name">
+    <input type="email" name="email">
+    <input type="text" name="subject">
+    <textarea name="message"></textarea>
+    <input type="text" name="bot-field">
+  </form>
+
+  <app-root></app-root>
+  <noscript>
+    <p style="padding:24px;font-family:sans-serif">Mahamadavesh Mathakiya — Software Developer. Email: <a href="mailto:mahamadavesh786@gmail.com">mahamadavesh786@gmail.com</a>. This site needs JavaScript; you can also <a href="assets/resume/Mahamadavesh-Mathakiya-Resume.pdf">download the resume (PDF)</a>.</p>
+  </noscript>
+</body>
+</html>
